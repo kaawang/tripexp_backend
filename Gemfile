@@ -32,6 +32,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'faker', '~> 1.4.3'
 
+gem 'rails-api'
+
 gem 'rack-cors', :require => 'rack/cors'
 
 # Use Unicorn as the app server
