@@ -5,3 +5,9 @@
     password_digest: Faker::Internet.password
     )
 end
+
+User.create(
+  name: "will",
+  email: "will@will.com",
+  password_digest: "will"
+  )

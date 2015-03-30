@@ -16,6 +16,8 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'pg'
 
+gem 'active_model_serializers'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -29,6 +31,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'faker', '~> 1.4.3'
+
+gem 'rack-cors', :require => 'rack/cors'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
