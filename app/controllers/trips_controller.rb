@@ -13,20 +13,15 @@ class TripsController < ApplicationController
   end
 
   def create
-    user = User.find_by(id: params[:user_id])
     create_trip = Trip.create(
       user_id: params[:user_id],
       trip_name: params[:tripName],
       location: params[:tripLocation],
-      startdate: params[:startdate],
-      enddate: params[:enddate]
+      startdate: params[:tripStartDate],
+      enddate: params[:tripEndDate]
       )
+    return render json: create_trip, status: 200
   end
 
   private
-
-  def safe_params
-    
-  end
-
 end
