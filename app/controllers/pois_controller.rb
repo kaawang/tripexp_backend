@@ -1,4 +1,5 @@
 class PoisController < ApplicationController
+  include PoisHelper
 
   def index
     pois = Poi.where(trip_id: params[:trip_id])
@@ -17,7 +18,9 @@ class PoisController < ApplicationController
   end
 
   def create
-    
+    create_poi(params)
+    pois = Poi.where(trip_id: params[:trip_id])
+    return render json: pois, status: 200
   end
 
 end

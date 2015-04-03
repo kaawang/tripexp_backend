@@ -1,28 +1,44 @@
-== README
+## Git workflow
+Initially, each machine pulls from the remote master.
+- When beginning a new feature, checkout a new branch. Work only on files related to this feature.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+`git checkout -b yourbranchname`
 
-Things you may want to cover:
+- Make commits on the feature branch locally until the feature is done. Use imperative and be descriptive; use semicolons to separate thoughts. Commit often.
 
-* Ruby version
+`git status`
 
-* System dependencies
+`git add filename`
 
-* Configuration
+`git commit`
 
-* Database creation
+- When a convenient place is reached to push, push to feature branch
 
-* Database initialization
+`git push -u origin yourbranchname`
 
-* How to run the test suite
+- When finished with a feature, push to make sure remote feature branch has all commits
 
-* Services (job queues, cache servers, search engines, etc.)
+`git push`
 
-* Deployment instructions
+- Pull request in GUI
+- Once the pull request is OK'd by the other pair, someone needs to merge it on their own machine, first making sure their own local master is up to date
 
-* ...
+`git checkout master`
 
+`git pull`
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+`git pull origin thefeaturebranchtobemerged`
+
+`git push`
+
+- Now the remote master is up-to-date. Everyone pulls from remote master to local master, then checks out their feature branch and pulls from origin/master, and continues working.
+
+`git checkout master`
+
+`git pull`
+
+`git checkout thebranchyouareworkingon`
+
+`git pull origin master`
+
+## Technologies
