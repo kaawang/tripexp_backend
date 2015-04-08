@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403230512) do
+ActiveRecord::Schema.define(version: 20150408175457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,9 +20,10 @@ ActiveRecord::Schema.define(version: 20150403230512) do
     t.integer  "trip_id"
     t.string   "poi_name"
     t.string   "address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "user_id"
+    t.string   "geocode_location"
   end
 
   add_index "pois", ["trip_id"], name: "index_pois_on_trip_id", using: :btree
@@ -31,10 +32,11 @@ ActiveRecord::Schema.define(version: 20150403230512) do
     t.integer  "user_id"
     t.string   "trip_name"
     t.string   "location"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.string   "startdate"
     t.string   "enddate"
+    t.string   "geocode_location"
   end
 
   add_index "trips", ["user_id"], name: "index_trips_on_user_id", using: :btree

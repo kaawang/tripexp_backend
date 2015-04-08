@@ -9,7 +9,9 @@ module PoisHelper
     end
   end
 
-  def geocode_converter(input)
+  def geocode_converter(input) #input is a string
+    format_address = input.gsub(" ","+")
+    geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ format_address +"&key=ENV['GOOGLE_SERVER_API_KEY']"
     
   end
 end

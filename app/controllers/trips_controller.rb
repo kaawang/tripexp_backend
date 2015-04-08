@@ -14,12 +14,14 @@ class TripsController < ApplicationController
   end
 
   def create
+    geocode_response = geocode_converter(params[:tripLocation])
     create_trip = Trip.create(
       user_id: params[:user_id],
       trip_name: params[:tripName],
       location: params[:tripLocation],
-      startdate: params[:tripStartDate],
-      enddate: params[:tripEndDate]
+      startdate: params[:tripStartDate], # fix startdate enddate naming convention fields
+      enddate: params[:tripEndDate],
+      # geocode_location: geocode_response JSON FORMAT
       )
     return render json: create_trip, status: 200
   end
