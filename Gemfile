@@ -16,6 +16,8 @@ gem 'coffee-rails', '~> 4.1.0'
 
 gem 'pg'
 
+gem 'httparty'
+
 gem 'dotenv-rails', :groups => [:development, :test]
 
 gem 'active_model_serializers'

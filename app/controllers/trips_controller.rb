@@ -15,13 +15,17 @@ class TripsController < ApplicationController
 
   def create
     geocode_response = geocode_converter(params[:tripLocation])
+    hash_coordinates = geocode_response["geometry"]["location"]
+    hash_place_id = geocode_response["place_id"]
     create_trip = Trip.create(
       user_id: params[:user_id],
       trip_name: params[:tripName],
       location: params[:tripLocation],
-      startdate: params[:tripStartDate], # fix startdate enddate naming convention fields
-      enddate: params[:tripEndDate],
-      # geocode_location: geocode_response JSON FORMAT
+      start_date: params[:tripStartDate],
+      end_date: params[:tripEndDate],
+      geocode_longitude: hash_coordinates["lng"],
+      geocode_latitude: hash_coordinates["lat"],
+      google_place_id: hash_place_id["place_id"]
       )
     return render json: create_trip, status: 200
   end
