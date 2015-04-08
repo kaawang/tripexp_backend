@@ -25,7 +25,7 @@ class TripsController < ApplicationController
       end_date: params[:tripEndDate],
       geocode_longitude: hash_coordinates["lng"],
       geocode_latitude: hash_coordinates["lat"],
-      google_place_id: hash_place_id["place_id"]
+      google_place_id: hash_place_id
       )
     return render json: create_trip, status: 200
   end
