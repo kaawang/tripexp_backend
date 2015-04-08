@@ -8,4 +8,8 @@ module PoisHelper
         )
     end
   end
+
+  def geocode_converter(input)
+    
+  end
 end

@@ -1,4 +1,5 @@
 class TripsController < ApplicationController
+  include TripsHelper
 
   def index
     trips = Trip.where(user_id: params[:user_id])
