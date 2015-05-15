@@ -1,23 +1,22 @@
 module PoisHelper
   include HTTParty
-  
-  def geocode_converter(input)
-    format_address = input.gsub(" ","+")
-    geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ format_address +"&key=" + ENV["GOOGLE_SERVER_API_KEY"]
-    response = HTTParty.get(geocode_url)  
-    json_package_place_coord = response.parsed_response["results"].last
-    return json_package_place_coord #probably will remove, ruby returns last known expression
+
+  def places_converter(input)
+    format_address = input.gsub(" ", "+")
+    trip = Trip.where(user_id: params[:user_id], id: params[:trip_id]).pluck("geocode_latitude","geocode_longitude")
+    textsearch_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + format_address + "&location=" + trip[0][0] + "," + trip[0][1] + "&radius=40000&key=" + ENV["GOOGLE_SERVER_API_KEY"]
+    response = HTTParty.get(textsearch_url)
   end
 
   def create_poi(input)
     address_hash = input["poisAddressArray"]
     address_hash.each do |hash|
-      geocode_response = geocode_converter(hash["value"])
-      hash_coordinates = geocode_response["geometry"]["location"]
-      hash_place_id = geocode_response["place_id"]
+      place_response = places_converter(hash["value"])
+      hash_coordinates = place_response["results"][0]["geometry"]["location"]
+      hash_place_id = place_response["results"][0]["place_id"]
       place_description = get_place_description(hash_place_id)
-      # place_description["result"].has_key?("name") ? poiName = place_description["result"]["name"] : poiName = address_name_getter(hash["value"])
-      poiName = address_name_getter(hash["value"])
+      p place_description
+      place_response["results"][0].has_key?("name") ? poiName = place_response["results"][0]["name"] : poiName = address_name_getter(hash["value"])
       place_description["result"].has_key?("opening_hours") ? opening_hours = place_description["result"]["opening_hours"]["weekday_text"] : opening_hours = "N/A"
       place_description["result"].has_key?("formatted_phone_number") ? phone_number = place_description["result"]["formatted_phone_number"] : phone_number = "N/A"
       Poi.create(
@@ -46,6 +45,8 @@ module PoisHelper
 
   def get_place_description(input) # consider using HTTP request on client side to obtain data.. will be costly to store descriptions in database vs API request consumption
     place_url = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+ input +"&key=" + ENV["GOOGLE_SERVER_API_KEY"]
+    p place_url
+    p "*"*50
     response = HTTParty.get(place_url)
   end
 end
