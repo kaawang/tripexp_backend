@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408192314) do
+ActiveRecord::Schema.define(version: 20150514221401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20150408192314) do
     t.string   "geocode_longitude"
     t.string   "geocode_latitude"
     t.string   "google_place_id"
+    t.string   "open_hours"
+    t.string   "phone_number"
   end
 
   add_index "pois", ["trip_id"], name: "index_pois_on_trip_id", using: :btree

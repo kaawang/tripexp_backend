@@ -6,7 +6,7 @@ module PoisHelper
     geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ format_address +"&key=" + ENV["GOOGLE_SERVER_API_KEY"]
     response = HTTParty.get(geocode_url)  
     json_package_place_coord = response.parsed_response["results"].last
-    return json_package_place_coord
+    return json_package_place_coord #probably will remove, ruby returns last known expression
   end
 
   def create_poi(input)
@@ -15,19 +15,25 @@ module PoisHelper
       geocode_response = geocode_converter(hash["value"])
       hash_coordinates = geocode_response["geometry"]["location"]
       hash_place_id = geocode_response["place_id"]
+      place_description = get_place_description(hash_place_id)
+      # place_description["result"].has_key?("name") ? poiName = place_description["result"]["name"] : poiName = address_name_getter(hash["value"])
       poiName = address_name_getter(hash["value"])
+      place_description["result"].has_key?("opening_hours") ? opening_hours = place_description["result"]["opening_hours"]["weekday_text"] : opening_hours = "N/A"
+      place_description["result"].has_key?("formatted_phone_number") ? phone_number = place_description["result"]["formatted_phone_number"] : phone_number = "N/A"
       Poi.create(
         trip_id: params[:trip_id],
         poi_name: poiName,
         address: hash["value"],
         geocode_longitude: hash_coordinates["lng"],
         geocode_latitude: hash_coordinates["lat"],
-        google_place_id: hash_place_id        
+        google_place_id: hash_place_id,
+        open_hours: opening_hours,
+        phone_number: phone_number
         )
     end
   end
 
-  def address_name_getter(input)
+  def address_name_getter(input) # This method executes if and when place result does not have a name. 
     full_address = input
     result = []
     full_address_array = full_address.split("")
@@ -36,5 +42,10 @@ module PoisHelper
       result.push(full_address_array[e]) if e <= comma_index
     end
     result.join()
+  end
+
+  def get_place_description(input) # consider using HTTP request on client side to obtain data.. will be costly to store descriptions in database vs API request consumption
+    place_url = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+ input +"&key=" + ENV["GOOGLE_SERVER_API_KEY"]
+    response = HTTParty.get(place_url)
   end
 end
