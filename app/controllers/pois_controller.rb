@@ -2,7 +2,7 @@ class PoisController < ApplicationController
   include PoisHelper
 
   def index
-    pois = Poi.where(trip_id: params[:trip_id])
+    pois = Poi.where(trip_id: params[:trip_id]).order('id')
     return render json: pois, status: 200
   end
 

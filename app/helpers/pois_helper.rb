@@ -22,7 +22,7 @@ module PoisHelper
       Poi.create(
         trip_id: params[:trip_id],
         poi_name: poiName,
-        address: hash["value"],
+        address: place_response["results"][0]["formatted_address"],
         geocode_longitude: hash_coordinates["lng"],
         geocode_latitude: hash_coordinates["lat"],
         google_place_id: hash_place_id,
@@ -45,8 +45,6 @@ module PoisHelper
 
   def get_place_description(input) # consider using HTTP request on client side to obtain data.. will be costly to store descriptions in database vs API request consumption
     place_url = "https://maps.googleapis.com/maps/api/place/details/json?placeid="+ input +"&key=" + ENV["GOOGLE_SERVER_API_KEY"]
-    p place_url
-    p "*"*50
     response = HTTParty.get(place_url)
   end
 end
